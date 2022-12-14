@@ -9,3 +9,5 @@
 ## Code Convention
 
 #### 파일 > 기본설정 > 설정 > save on format true 로 변경.
+
+## npm run storybook
