@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -8,7 +8,11 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 
+
 export default function ButtonAppBar() {
+
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -22,7 +26,8 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/test">test</Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={()=>navigate("/signUp")}>Sign Up</Button>
+          <Button color="inherit" onClick={() =>navigate("/login")}>Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
