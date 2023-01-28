@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable react/prop-types */
-/* eslint-disable @typescript-eslint/camelcase */
 import * as React from 'react'
 import Typography from '@mui/material/Typography'
 import { Box } from '@mui/material'
@@ -13,27 +10,34 @@ import TableRow from '@mui/material/TableRow'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import StarIcon from '@mui/icons-material/Star'
+import { JobItemType } from './DummyList'
 
-export default function JobItem({ row }) {
+interface JobItemProps {
+  propsItem: JobItemType
+}
+
+export default function JobItem({ propsItem }: JobItemProps): React.ReactElement {
+  const { conm, regymd, ddlnymd, sj, qlfcrqrmnt, eplymtform, rcrtmtnoppl, wagecdn, addr, dutycn } = propsItem
+
   const [open, setOpen] = React.useState(false)
   const [like, setLike] = React.useState(false)
-  const handleLike = () => {
-    setLike(!like)
-  }
+  const handleLike = (): void => setLike(!like)
+  const handleToggle = (): void => setOpen(!open)
+
   return (
-    <React.Fragment>
+    <>
       <TableRow>
-        <TableCell align="left">{row.co_nm}</TableCell>
+        <TableCell align="left">{conm}</TableCell>
         <TableCell align="left">
-          <span>{row.reg_ymd + ' ~ '}</span>
+          <span>{regymd + ' ~ '}</span>
           <br />
-          <span>{row.ddln_ymd}</span>
+          <span>{ddlnymd}</span>
         </TableCell>
         <TableCell align="left" colSpan={3}>
-          {row.sj}
+          {sj}
         </TableCell>
         <TableCell align="right">
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton aria-label="expand row" size="small" onClick={handleToggle}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -48,46 +52,45 @@ export default function JobItem({ row }) {
                 <Typography variant="h6" gutterBottom component="div">
                   상새내용
                 </Typography>
-                <IconButton aria-label="delete" onClick={handleLike} color={like ? 'primary' : 'silver'}>
+                <IconButton aria-label="delete" onClick={handleLike} color={like ? 'primary' : 'inherit'}>
                   <StarIcon sx={{ fontSize: 35 }} />
                 </IconButton>
               </Box>
               <Table size="small" aria-label="purchases">
-                {/* <TableHead></TableHead> */}
                 <TableBody>
                   <TableRow>
                     <TableCell sx={{ width: '20%', borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
                       자격요건
                     </TableCell>
-                    <TableCell scope="row">{row.qlfc_rqrmnt}</TableCell>
+                    <TableCell scope="row">{qlfcrqrmnt}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ width: '20%', borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
                       고용형태
                     </TableCell>
-                    <TableCell scope="row">{row.eplymt_form}</TableCell>
+                    <TableCell scope="row">{eplymtform}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ width: '20%', borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
                       모집인원
                     </TableCell>
-                    <TableCell scope="row">{row.rcrtmt_noppl}</TableCell>
+                    <TableCell scope="row">{rcrtmtnoppl}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ width: '20%', borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
                       임금조건
                     </TableCell>
-                    <TableCell scope="row">{row.wage_cdn}</TableCell>
+                    <TableCell scope="row">{wagecdn}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ width: '20%', borderRight: '1px solid rgba(224, 224, 224, 1)' }}>근무지</TableCell>
-                    <TableCell scope="row">{row.addr}</TableCell>
+                    <TableCell scope="row">{addr}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ width: '20%', borderRight: '1px solid rgba(224, 224, 224, 1)' }}>
                       직무내용
                     </TableCell>
-                    <TableCell scope="row">{row.duty_cn}</TableCell>
+                    <TableCell scope="row">{dutycn}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -95,7 +98,6 @@ export default function JobItem({ row }) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </>
   )
 }
-

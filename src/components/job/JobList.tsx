@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/camelcase */
 import * as React from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -9,41 +7,23 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import JobItem from './JobItem'
 import { TextField } from '@material-ui/core'
-import useAxios from '../../hooks/UseAxios'
 import SearchIcon from '@mui/icons-material/Search'
 import IconButton from '@mui/material/IconButton'
 import CircularProgress from '@mui/material/CircularProgress'
+import { dummyData } from './DummyList'
 
-export default function JobList() {
-  const apiKey = process.env.REACT_APP_JOBAPI_KEY
-  const { response, loading } = useAxios({
-    method: 'get',
-    url: `/4050000/realtmeplymt/getRealtmeplymt?serviceKey=${apiKey}`,
-    config: {
-      params: {
-        numOfRows: 20,
-        pageNo: 1,
-        duty_cn: '웹',
-      },
-    },
-  })
-  /* 
-  서비스키가 config에보내니 requestUrl에서 변경되서뜨는이슈.
-  url: `/4050000/realtmeplymt/getRealtmeplymt`,
-  config: {
-    params: {
-      numOfRows: 20,
-      pageNo: 1,
-      serviceKey:apiKey
-    },
-  },
-  */
+export default function JobList(): React.ReactElement {
+  const data = dummyData
 
   const [inputVal, setInputVal] = React.useState('')
-  const searchList = () => {
+  const searchList = (): void => {
     console.log(inputVal)
   }
-
+  const [loading, setLoading] = React.useState(true)
+  React.useEffect(() => {
+    setLoading(false)
+  }, [])
+  
   return (
     <TableContainer sx={{ width: '100%', marginLeft: '2rem', marginTop: '2rem' }}>
       <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>채용공고 검색</h3>
@@ -51,12 +31,14 @@ export default function JobList() {
         fullWidth
         placeholder="검색어를 입력하세요."
         id="search"
-        onChange={e => setInputVal(e.target.value)}
-        sx={{ margin: '2rem 0 1rem 1rem' }}
+        onChange={(e): void => setInputVal(e.target.value)}
+        // sx={{ margin: '2rem 0 1rem 1rem' }}
+        style={{ margin: '2rem 0 1rem 1rem' }}
         InputProps={{
           endAdornment: (
             <IconButton onClick={searchList}>
-              <SearchIcon sx={{ fontSize: 35 }} edge="end" />
+              <SearchIcon style={{ fontSize: '35px' }} />
+              {/* <SearchIcon sx={{ fontSize: 35 }} edge="end" /> */}
             </IconButton>
           ),
         }}
@@ -86,8 +68,8 @@ export default function JobList() {
           </TableBody>
         ) : (
           <TableBody>
-            {response.items.map((data, index) => (
-              <JobItem key={index} row={data} />
+            {data.map((item, index) => (
+              <JobItem key={index} propsItem={item} />
             ))}
           </TableBody>
         )}
@@ -95,3 +77,5 @@ export default function JobList() {
     </TableContainer>
   )
 }
+
+
