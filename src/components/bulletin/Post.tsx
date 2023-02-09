@@ -1,24 +1,22 @@
 import { Avatar } from '@mui/material'
-import React from 'react'
-import InputOpion from './InputOpion'
+import { FC } from 'react'
+import { FeedDTO } from '../../dto/feed'
 import classes from './Post.module.css'
-import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 
-{
-  /* { name, description, message } */
-}
-const Post = () => {
+export type PostProps = FeedDTO
+
+const Post: FC<PostProps> = ({ userName, content, profileSrc, message }) => {
   return (
     <div className={classes.post}>
       <div className={classes.post__header}>
-        <Avatar />
+        <Avatar src={profileSrc} />
         <div className={classes.post__info}>
-          <h2>Name</h2>
-          <p>Description</p>
+          <h2>{userName}</h2>
+          <p>{content}</p>
         </div>
       </div>
       <div className={classes.post__body}>
-        <p>Message goes here</p>
+        <p>{message}</p>
       </div>
       {/* <div className="post__buttons">
         <InputOpion Icon={ThumbUpAltOutlinedIcon} title="Like" color="gray" />
