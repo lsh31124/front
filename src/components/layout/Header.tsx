@@ -15,7 +15,7 @@ export default function ButtonAppBar(): React.ReactElement {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const loginState = useSelector((state: RootState) => {
-    return state.login.email
+    return state.login.isLogged
   })
 
   const logoutHandler = (): void => {
@@ -33,7 +33,7 @@ export default function ButtonAppBar(): React.ReactElement {
   }
 
   let loggedIn = null
-  if (loginState == null) {
+  if (loginState == false) {
     loggedIn = (
       <>
         <Button color="inherit" onClick={(): void => navigate('/job')}>
