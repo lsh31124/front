@@ -1,33 +1,59 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Route, useNavigate } from 'react-router-dom';
-import SignUp from '../signup/SignUp';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import axios from 'axios'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { setLogin } from '../../store/loginSlice'
+const theme = createTheme()
 
-const theme = createTheme();
+export default function Login(): React.ReactElement {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
 
-export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
+    const json = {
       email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+      userPw: data.get('userPw'),
+    }
 
-  const navigate = useNavigate();
+    axios
+      .post(process.env.REACT_APP_BACK_BASE_URL + '/login', json, {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+      })
+      .then(res => {
+        if (res.data.success == true) {
+          const email = json.email != null ? json.email : ''
+          dispatch(setLogin(email.toString()))
+          navigate('/')
+        } else {
+          alert('aa')
+        }
+      })
+      .catch(err => {
+        alert(err)
+      })
+  }
+
+  const location = useLocation()
+
+  const emailRef = React.useRef<HTMLInputElement>(null)
+  const userPwRef = React.useRef<HTMLInputElement>(null)
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,28 +82,24 @@ export default function Login() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              defaultValue={location.state != null ? location.state.email : ''}
+              inputRef={emailRef}
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
+              name="userPw"
+              label="userPw"
+              type="userPw"
+              id="userPw"
+              defaultValue={location.state != null ? location.state.userPw : ''}
+              inputRef={userPwRef}
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
             <Grid container>
@@ -95,7 +117,6 @@ export default function Login() {
           </Box>
         </Box>
       </Container>
-     
     </ThemeProvider>
-  );
+  )
 }
