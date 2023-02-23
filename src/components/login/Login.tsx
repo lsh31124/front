@@ -41,8 +41,10 @@ export default function Login(): React.ReactElement {
           const email = json.email != null ? json.email : ''
           dispatch(setLogin(email.toString()))
           navigate('/')
+        } else if (res.data.success == false) {
+          alert('회원가입에 실패하였습니다')
         } else {
-          alert('aa')
+          alert(res)
         }
       })
       .catch(err => {
