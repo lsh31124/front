@@ -36,9 +36,6 @@ export default function ButtonAppBar(): React.ReactElement {
   if (loginState == false) {
     loggedIn = (
       <>
-        <Button color="inherit" onClick={(): void => navigate('/job')}>
-          Job
-        </Button>
         <Button color="inherit" onClick={(): void => navigate('/signUp')}>
           Sign Up
         </Button>
@@ -70,6 +67,9 @@ export default function ButtonAppBar(): React.ReactElement {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/test">test</Link>
           </Typography>
+          <Button color="inherit" onClick={(): void => navigate('/job')}>
+            Job
+          </Button>
           {loggedIn}
         </Toolbar>
       </AppBar>
