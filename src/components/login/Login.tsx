@@ -16,6 +16,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setLogin } from '../../store/loginSlice'
+import styles from './Login.module.css'
 const theme = createTheme()
 
 export default function Login(): React.ReactElement {
@@ -75,50 +76,54 @@ export default function Login(): React.ReactElement {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              defaultValue={location.state != null ? location.state.email : ''}
-              inputRef={emailRef}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="userPw"
-              label="userPw"
-              type="userPw"
-              id="userPw"
-              defaultValue={location.state != null ? location.state.userPw : ''}
-              inputRef={userPwRef}
-              autoComplete="current-password"
-            />
-            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+          <div className={styles.mount1}>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email 주소"
+                name="email"
+                autoComplete="email"
+                defaultValue={location.state != null ? location.state.email : ''}
+                inputRef={emailRef}
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="userPw"
+                label="비밀번호"
+                type="userPw"
+                id="userPw"
+                defaultValue={location.state != null ? location.state.userPw : ''}
+                inputRef={userPwRef}
+                autoComplete="current-password"
+              />
+              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/signUp" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/signUp" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </div>
         </Box>
       </Container>
     </ThemeProvider>
   )
 }
+
+declare module '*.module.css'
