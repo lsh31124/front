@@ -28,7 +28,7 @@ export default function Login(): React.ReactElement {
 
     const json = {
       email: data.get('email'),
-      userPw: data.get('userPw'),
+      password: data.get('password'),
     }
 
     axios
@@ -43,7 +43,7 @@ export default function Login(): React.ReactElement {
           dispatch(setLogin(email.toString()))
           navigate('/')
         } else if (res.data.success == false) {
-          alert('회원가입에 실패하였습니다')
+          alert('로그인에 실패하였습니다\n' + 'error :' + res.data.message)
         } else {
           alert(res)
         }
@@ -94,10 +94,10 @@ export default function Login(): React.ReactElement {
                 margin="normal"
                 required
                 fullWidth
-                name="userPw"
+                name="password"
                 label="비밀번호"
-                type="userPw"
-                id="userPw"
+                type="password"
+                id="password"
                 defaultValue={location.state != null ? location.state.userPw : ''}
                 inputRef={userPwRef}
                 autoComplete="current-password"

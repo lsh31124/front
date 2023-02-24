@@ -86,7 +86,7 @@ const UserId = forwardRef<UserIdRef, Props>((props, ref) => {
 
     const data = {
       email: emailRef.current?.value,
-      userPw: userPwRef.current?.value,
+      password: userPwRef.current?.value,
     }
 
     axios
@@ -121,54 +121,52 @@ const UserId = forwardRef<UserIdRef, Props>((props, ref) => {
   }
 
   return (
-    <>
-      <Box component="form" noValidate sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              error={emailValid === false ? true : false}
-              id="email"
-              label="이메일 주소"
-              name="email"
-              autoComplete="email"
-              onBlur={onChangeEmail}
-              inputRef={emailRef}
-              helperText={emailValid ? '' : '유효하지 않은 이메일 형식입니다'}
-              onKeyPress={handleOnKeyPress}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="userPw"
-              type="password"
-              id="userPw"
-              label="비밀번호"
-              autoComplete="new-password"
-              inputRef={userPwRef}
-              onKeyPress={handleOnKeyPress}
-            />
-          </Grid>
+    <Box component="form" noValidate sx={{ mt: 3 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            error={emailValid === false ? true : false}
+            id="email"
+            label="이메일 주소"
+            name="email"
+            autoComplete="email"
+            onBlur={onChangeEmail}
+            inputRef={emailRef}
+            helperText={emailValid ? '' : '유효하지 않은 이메일 형식입니다'}
+            onKeyPress={handleOnKeyPress}
+          />
         </Grid>
-        <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          onClick={(): void => {
-            submit()
-          }}
-          sx={{ mt: 3, mb: 2 }}
-        >
-          다음
-        </Button>
-        <Grid container justifyContent="flex-end">
-          <Grid item></Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            name="password"
+            type="password"
+            id="userPw"
+            label="비밀번호"
+            autoComplete="new-password"
+            inputRef={userPwRef}
+            onKeyPress={handleOnKeyPress}
+          />
         </Grid>
-      </Box>
-    </>
+      </Grid>
+      <Button
+        type="button"
+        fullWidth
+        variant="contained"
+        onClick={(): void => {
+          submit()
+        }}
+        sx={{ mt: 3, mb: 2 }}
+      >
+        다음
+      </Button>
+      <Grid container justifyContent="flex-end">
+        <Grid item></Grid>
+      </Grid>
+    </Box>
   )
 })
 
