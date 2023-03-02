@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
@@ -13,7 +12,6 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 const persistor = persistStore(store) // redux store 생성
 
-axios.defaults.withCredentials = true
 root.render(
   <React.StrictMode>
     <Provider store={store}>
