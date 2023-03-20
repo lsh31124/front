@@ -58,19 +58,20 @@ const UserId = forwardRef<UserIdRef, Props>((props, ref) => {
       }),
     }
 
-    axios
-      .post(baseURL + '/emailCheck', option)
-      .then(response => {
-        if (response.data == false) {
-          setEmailValid(true)
-        } else if (response.data == true) {
-          setEmailValid(false)
-        }
-      })
-      .catch(err => {
-        alert(err)
-        setEmailValid(false)
-      })
+    // axios
+    //   .post(baseURL + '/emailCheck', option)
+    //   .then(response => {
+    //     if (response.data == false) {
+    //       setEmailValid(true)
+    //     } else if (response.data == true) {
+    //       setEmailValid(false)
+    //     }
+    //   })
+    //   .catch(err => {
+    //     alert(err)
+    //     setEmailValid(false)
+    //   })
+    setEmailValid(true)
   }
 
   const onChangeEmail = (e: FocusEvent<HTMLInputElement>): void => {
@@ -81,36 +82,32 @@ const UserId = forwardRef<UserIdRef, Props>((props, ref) => {
     }
   }
 
-  const fetch = (): void => {
-    const baseURL = process.env.REACT_APP_BACK_BASE_URL
-
-    const data = {
-      email: emailRef.current?.value,
-      password: userPwRef.current?.value,
-    }
-
-    axios
-      .post(baseURL + '/register', data, {
-        headers: {
-          'Content-Type': `application/json`,
-        },
-      })
-      .then(() => {
-        navigate('/login', {
-          state: {
-            email: emailRef.current?.value,
-            userPw: userPwRef.current?.value,
-          },
-        })
-      })
-      .catch(err => {
-        alert(err)
-      })
-  }
-
   const submit = (): void => {
     if (emailValid === true && userPwRef.current?.value != '') {
-      fetch()
+      const baseURL = process.env.REACT_APP_BACK_BASE_URL
+
+      const data = {
+        email: emailRef.current?.value,
+        password: userPwRef.current?.value,
+      }
+
+      axios
+        .post(baseURL + '/register', data, {
+          headers: {
+            'Content-Type': `application/json`,
+          },
+        })
+        .then(() => {
+          navigate('/login', {
+            state: {
+              email: emailRef.current?.value,
+              userPw: userPwRef.current?.value,
+            },
+          })
+        })
+        .catch(err => {
+          alert(err)
+        })
     }
   }
 

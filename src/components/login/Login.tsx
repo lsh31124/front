@@ -11,46 +11,42 @@ import Link from '@mui/material/Link'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import axios from 'axios'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { setLogin } from '../../store/loginSlice'
-import styles from './Login.module.css'
+import { login } from '../../store/loginSlice'
+import instance from '../../util/http'
+import { LoginData } from './loginData'
+import styles from './LoginForm.module.css'
 const theme = createTheme()
 
-export default function Login(): React.ReactElement {
+export default function LoginForm(): React.ReactElement {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
 
-    const json = {
-      email: data.get('email'),
-      password: data.get('password'),
+    const json: LoginData = {
+      email: data.get('email') as string,
+      password: data.get('password') as string,
     }
 
-    axios
-      .post(process.env.REACT_APP_BACK_BASE_URL + '/login', json, {
-        headers: {
-          'Content-Type': `application/json`,
-        },
-      })
-      .then(res => {
-        if (res.data.success == true) {
-          const email = json.email != null ? json.email : ''
-          dispatch(setLogin(email.toString()))
+    const loginService = (data: LoginData) => {
+      instance
+        .post('/login', data, {})
+        .then(res => {
+          const token = res.data
+          dispatch(login(token))
           navigate('/')
-        } else if (res.data.success == false) {
-          alert('로그인에 실패하였습니다\n' + 'error :' + res.data.message)
-        } else {
-          alert(res)
-        }
-      })
-      .catch(err => {
-        alert(err)
-      })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
+    loginService(json)
   }
 
   const location = useLocation()
@@ -74,7 +70,7 @@ export default function Login(): React.ReactElement {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            LoginForm
           </Typography>
           <div className={styles.mount1}>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

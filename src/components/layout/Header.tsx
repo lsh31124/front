@@ -5,35 +5,21 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { RootState } from '../../store'
-import { setLogout } from '../../store/loginSlice'
+import { logoutAction } from '../../store/loginSlice'
+import instance from '../../util/http'
 
 export default function ButtonAppBar(): React.ReactElement {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const loginState = useSelector((state: RootState) => {
-    return state.login.isLogged
+  const isLoggedIn = useSelector((state: RootState) => {
+    return state.login.token === null
   })
 
-  const logoutHandler = (): void => {
-    axios
-      .get(process.env.REACT_APP_BACK_BASE_URL + '/logout')
-      .then(() => {
-        dispatch(setLogout())
-        navigate('/')
-      })
-      .catch(err => {
-        alert(err)
-        dispatch(setLogout()) //추후 로그아웃 구현시 제거
-        navigate('/') //추후 로그아웃 구현시 제거
-      })
-  }
-
   let loggedIn = null
-  if (loginState == false) {
+  if (isLoggedIn === true) {
     loggedIn = (
       <>
         <Button color="inherit" onClick={(): void => navigate('/signUp')}>
@@ -47,7 +33,26 @@ export default function ButtonAppBar(): React.ReactElement {
   } else {
     loggedIn = (
       <>
-        <Button color="inherit" onClick={logoutHandler}>
+        <Button
+          color="inherit"
+          onClick={() => {
+            {
+              instance
+                .get('/logout', {
+                  validateStatus: status => {
+                    return status >= 200 && status <= 302
+                  },
+                })
+                .then(() => {
+                  dispatch(logoutAction())
+                  navigate('/')
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+          }}
+        >
           logout
         </Button>
       </>

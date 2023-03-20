@@ -1,24 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+export type LoginState = {
+  token: string | null
+  error: boolean | null
+}
+
 const initialState = {
-  email: null as string | null,
-  isLogged: false as boolean,
+  token: null as string | null,
+  error: false,
 }
 
 const loginSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setLogin(state, action: PayloadAction<string>): void {
-      state.isLogged = true
-      state.email = action.payload
+    login(state: LoginState, action: PayloadAction<string>) {
+      state.token = action.payload
     },
-    setLogout(state): void {
-      state.isLogged = false
-      state.email = null
+    logoutAction(state: LoginState) {
+      state.token = null
+    },
+    fetchDataFailure(state, action: PayloadAction<boolean>) {
+      state.token = null
+      state.error = true
     },
   },
 })
 
 export default loginSlice
-export const { setLogin, setLogout } = loginSlice.actions
+export const { login, logoutAction, fetchDataFailure } = loginSlice.actions
