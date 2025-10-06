@@ -99,7 +99,7 @@
     "process": "^0.11.10",
     "prop-types": "^15.8.1",
     "redux-devtools-extension": "^2.13.9",
-    "webpack": "^5.75.0"
+    "webpack": "^5.102.0"
   },
   "eslintIgnore": [
     "node_modules",
